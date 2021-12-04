@@ -1,0 +1,150 @@
+---
+title: "Rprogramming"
+author: "jojo"
+date: "2021/11/29"
+output: pdf_document
+---
+
+Judge class of object
+```{r}
+x <- c(4, "a", TRUE) #char
+x <- c(4, TRUE) #num
+```
+
+
+If I have two vectors x <- c(1,3, 5) and y <- c(3, 2, 10), what is produced by the expression rbind(x, y)?
+a matrix with two rows and three columns
+```{r}
+x <- c(1,3, 5)
+y <- c(3, 2, 10)
+rbind(x, y)
+```
+Similarly, cbind(x,y) returns a matrix with three rows and two columns.
+
+**Dataset: hw1_data**
+Extract the last 2 rows of the data frame and print them to the console. What does the output look like?
+```{r}
+tail(hw1_data, 2)
+```
+
+What is the value of Ozone in the 47th row?
+```{r}
+hw1_data$Ozone[47]
+```
+
+How many missing values are in the Ozone column of this data frame?
+```{r}
+sum(hw1_data$Ozone=="NA") #When NA is char, not empty
+```
+Otherwise,
+```{r}
+sum(is.na(hw1_data$Ozone))
+```
+
+What is the mean of the Ozone column in this dataset? Exclude missing values (coded as NA) from this calculation.
+```{r}
+x <- as.numeric(hw1_data$Ozone[hw1_data$Ozone!="NA"]) #transform char to num to compute mean
+mean(x)
+```
+
+Extract the subset of rows of the data frame where Ozone values are above 31 and Temp values are above 90. What is the mean of Solar.R in this subset?
+```{r}
+sub <- subset(hw1_data, hw1_data$Ozone>31 & hw1_data$Temp>90) #use subset()
+mean(as.numeric(sub$Solar.R))
+```
+
+What was the maximum ozone value in the month of May (i.e. Month is equal to 5)?
+```{r}
+sub <- subset(hw1_data, hw1_data$Ozone!="NA")
+max(as.numeric(sub$Ozone[sub$Month=="5"]))
+```
+
+## Control Structures
+if-else
+```{r}
+if(condition){
+  
+}else if(condition){
+  
+}else{
+  
+}
+
+```
+
+for loop
+```{r}
+x <- c("a","b","c")
+for(i in 1:3){
+  print(x[i]) #the three tyoes have same output
+}
+for(i in seq_along(x)){
+  print(x[i])
+}
+for(letter in x){
+  print(letter)
+}
+```
+
+while loop
+```{r}
+count <- 10
+while(count<10){
+  
+}
+```
+
+repeat (not gennerally used)
+Repeat is an infinite loop. The only way to exit a reap loop is to break.
+```{r}
+reprat{
+  
+  if(condition){
+    break
+  }
+}
+```
+
+next
+nest is used to skip an iteration of a loop.
+```{r}
+for(i in 1:100){
+  if(i<20){
+    next
+  }
+  # do something else
+}
+```
+
+return
+returen signals that a function should exit and return a given value.
+
+## Function
+```{r}
+add2 <- function(x,y){ #use function() to write a funciton
+  x+y
+}
+add2(3,5)
+```
+Write a more complicated one.
+```{r}
+above <- function(x,n){ #x is a sequence; can set default value n=10
+  use <-x>n
+  x[use]
+}
+x<- 1:20
+above(x,12)
+```
+```{r}
+columnmean <- function(y, removeNA=TRUE){
+  nc <- ncol(y)
+  means <- numeric(nc) #initialize a vector of length nc
+  for(i in 1:nc){
+    means[i] <- mean(y[,i], na.rm=removeNA) #remove na
+  }
+  means
+}
+columnmean(airquality)
+```
+
+
